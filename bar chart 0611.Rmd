@@ -1,0 +1,137 @@
+ 
+# Bar Chart
+
+```{r}
+data = read.csv("/Users/clarawang/Dropbox/consulting/EmployeeSatisfactionData.csv")
+data <- na.omit(data)
+data$Rating..Overall. <- as.factor(data$Rating..Overall.)
+data1 <- data%>%group_by(Rating..Overall.) %>% summarise_at(vars(11:26), mean, na.rm=T)
+data2 <- data1 %>% gather(key=ProsCons, value=percentages, 2:17)
+ggplot(data2, aes(ProsCons, percentages, fill=Rating..Overall.)) + geom_bar(stat="Identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+
+```{r}
+data = read.csv("/Users/clarawang/Dropbox/consulting/EmployeeSatisfactionData.csv")
+data <- na.omit(data)
+data$Rating..Overall. <- as.factor(data$Rating..Overall.)
+#mean(data[,26],na.rm=T)
+data1 <- data%>%group_by(Rating..Overall.) %>% summarise_at(vars(11:26), mean, na.rm=TRUE)
+data2 <- data1 %>% gather(key=ProsCons, value=percentages, 2:17)
+
+data2<-data2 
+
+data2$ProsCons <- factor(data2$ProsCons, levels=c( "Workspace.design", "Cons_Workspace.design",  "Growth...career.development"  ,"Cons_Growth...career.development",   "Management.support",  "Cons_Management.support" , "Job.design" ,"Cons_Job.design","Tech...resources" ,"Cons_Tech...resources","Compensation...rewards"  ,"Cons_Compensation...rewards" , "Work.environment"  , "Cons_Work.environment" , "Firm.reputation"  ,"Cons_Organizational.structure...policies"))
+#data2$ProsCons
+
+
+ggplot(data2, aes(ProsCons, percentages, fill=Rating..Overall.)) + geom_bar(stat="Identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1))
+data1
+data2
+names(data)
+```
+
+```{r}
+data = read.csv("/Users/clarawang/Dropbox/consulting/EmployeeSatisfactionData.csv")
+data$Rating..Overall. <- as.factor(data$Rating..Overall.)
+data1 <- data%>%group_by(Industry) %>% summarise_at(vars(11:26), mean, na.rm=T)
+data2 <- data1 %>% gather(key=ProsCons, value=percentages, 2:17)
+ggplot(data2, aes(ProsCons, percentages, fill=Industry)) + geom_bar(stat="Identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+```{r}
+data = read.csv("/Users/clarawang/Dropbox/consulting/EmployeeSatisfactionData.csv")
+data$Rating..Overall. <- as.factor(data$Rating..Overall.)
+data1 <- data%>%group_by(Rating..Overall.) %>% summarise_at(vars(11:26), mean, na.rm=T)
+data2 <- data1 %>% gather(key=ProsCons, value=percentages, 2:17)
+ggplot(data2, aes(ProsCons, percentages, fill=Rating..Overall.)) + geom_bar(stat="Identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+```{r}
+library(ggplot2)
+library(tidyverse)
+data = read.csv("/Users/clarawang/Dropbox/consulting/EmployeeSatisfactionData.csv")
+data$Rating..Overall. <- as.factor(data$Rating..Overall.)
+data1 <- data%>%group_by(Type.of.Job) %>% summarise_at(vars(11:26), mean, na.rm=T)
+data2 <- data1 %>% gather(key=ProsCons, value=percentages, 2:17)
+ggplot(data2, aes(ProsCons, percentages, fill=ProductService)) + geom_bar(stat="Identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
+```
+
+
+
+
+#fit the model with pros and cons 
+```{r}
+fit <- plsr(as.numeric(data$Rating..Overall.)~
+              Workspace.design+Growth...career.development+Firm.reputation+
+              Management.support+Work.environment+Compensation...rewards+Job.design+
+              Tech...resources+Cons_Growth...career.development+Cons_Management.support+
+              Cons_Work.environment+Cons_Compensation...rewards+Cons_Job.design
+            +Cons_Organizational.structure...policies+Cons_Workspace.design+
+              Cons_Tech...resources, data=data, scale=T)
+```
+
+```{r}
+summary(fit)
+```
+
+
+#biplot
+```{r}
+#biplot
+components12 <- fit$scores[,1:2]
+row.names(components12) <- data$Company.ID
+components12.subset <- components12[sample(1:nrow(data), 100),]
+biplot(components12.subset, loadings(fit)[,1:2], expand=1.5)
+
+proscons <- factor(row.names(loading12), levels=colnames(data)[11:26])
+loading12 <- loadings(fit)[,1:2]
+loading12 <- loading12[order(proscons),]
+loading12.df <- data.frame(variables=1:16,loading12)
+loading12.df <- loading12.df %>% gather(key=comp, value=loadings, 2:3)
+ggplot(loading12.df, aes(x=variables, y=loadings))+geom_line(aes(col=comp))+
+  scale_x_continuous(breaks=1:16, labels=row.names(loading12))+
+theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+```{r}
+
+#data.matrix=data[,11:26]
+comp.1 <-fit$coefficients[,,1]
+comp.1
+```
+
+
+# fit the model1 type of jobs
+```{r}
+library(pls)
+fit.1 <- plsr(as.numeric(data$Type.of.Job)~
+              Workspace.design+Growth...career.development+Firm.reputation+
+              Management.support+Work.environment+Compensation...rewards+Job.design+
+              Tech...resources+Cons_Growth...career.development+Cons_Management.support+
+              Cons_Work.environment+Cons_Compensation...rewards+Cons_Job.design
+            +Cons_Organizational.structure...policies+Cons_Workspace.design+
+              Cons_Tech...resources, data=data, scale=T)
+
+```
+
+```{r}
+summary(fit.1)
+```
+
+# fit the model with industry
+```{r}
+library(pls)
+fit.2 <- plsr(as.numeric(data$Industry)~
+              Workspace.design+Growth...career.development+Firm.reputation+
+              Management.support+Work.environment+Compensation...rewards+Job.design+
+              Tech...resources+Cons_Growth...career.development+Cons_Management.support+
+              Cons_Work.environment+Cons_Compensation...rewards+Cons_Job.design
+            +Cons_Organizational.structure...policies+Cons_Workspace.design+
+              Cons_Tech...resources, data=data, scale=T)
+
+```
+
+```{r}
+summary(fit.2)
+```
