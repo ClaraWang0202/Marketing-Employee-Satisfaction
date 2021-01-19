@@ -1,0 +1,178 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+#all  data 
+
+```{r}
+library(dplyr)
+library(ggplot2)
+data = read.csv("/Users/clarawang/Dropbox/consulting/EmployeeSatisfactionData.csv")
+data <- na.omit(data)
+data$Rating..Overall. <- as.factor(data$Rating..Overall.)
+#mean(data[,26],na.rm=T)
+data1 <- data%>%group_by(Rating..Overall.) %>% summarise_at(vars(Workspace.design:Cons_Tech...resources), mean, na.rm=TRUE)
+data2 <- data1 %>% gather(key=ProsCons, value=percentages, 2:17)
+data2<-data2 
+data2$ProsCons <- factor(data2$ProsCons, levels=c( "Workspace.design", "Cons_Workspace.design",  "Growth...career.development"  ,"Cons_Growth...career.development",   "Management.support",  "Cons_Management.support" , "Job.design" ,"Cons_Job.design","Tech...resources" ,"Cons_Tech...resources","Compensation...rewards"  ,"Cons_Compensation...rewards" , "Work.environment"  , "Cons_Work.environment" , "Firm.reputation"  ,"Cons_Organizational.structure...policies"))
+#data2$ProsCons
+
+
+ggplot(data2, aes(ProsCons, percentages, fill=Rating..Overall.)) + geom_bar(stat="Identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("All data:Rating with pros and cons")
+data1
+data2
+names(data)
+```
+
+
+#Type of jobs -SELF
+```{r}
+library(dplyr)
+library(ggplot2)
+data = read.csv("/Users/clarawang/Dropbox/consulting/EmployeeSatisfactionData.csv")
+data.SFLE = data %>% filter(Type.of.Job == "SFLE")
+data.SFLE <- na.omit(data.SFLE)
+data.SFLE$Rating..Overall. <- as.factor(data.SFLE$Rating..Overall.)
+#mean(data[,26],na.rm=T)
+data1 <- data.SFLE%>%group_by(Rating..Overall.) %>% summarise_at(vars(Workspace.design:Cons_Tech...resources), mean, na.rm=TRUE)
+data2 <- data1 %>% gather(key=ProsCons, value=percentages, 2:17)
+data2<-data2 
+data2$ProsCons <- factor(data2$ProsCons, levels=c( "Workspace.design", "Cons_Workspace.design",  "Growth...career.development"  ,"Cons_Growth...career.development",   "Management.support",  "Cons_Management.support" , "Job.design" ,"Cons_Job.design","Tech...resources" ,"Cons_Tech...resources","Compensation...rewards"  ,"Cons_Compensation...rewards" , "Work.environment"  , "Cons_Work.environment" , "Firm.reputation"  ,"Cons_Organizational.structure...policies"))
+#data2$ProsCons
+ggplot(data2, aes(ProsCons, percentages, fill=Rating..Overall.)) + geom_bar(stat="Identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("SFLE:Rating with pros and cons")
+
+```
+#Type of jobs -TFLE
+```{r}
+library(dplyr)
+library(ggplot2)
+data = read.csv("/Users/clarawang/Dropbox/consulting/EmployeeSatisfactionData.csv")
+data.TFLE = data %>% filter(Type.of.Job == "TFLE")
+data.TFLE <- na.omit(data.TFLE)
+data.TFLE$Rating..Overall. <- as.factor(data.TFLE$Rating..Overall.)
+#mean(data[,26],na.rm=T)
+data1 <- data.TFLE%>%group_by(Rating..Overall.) %>% summarise_at(vars(Workspace.design:Cons_Tech...resources), mean, na.rm=TRUE)
+data2 <- data1 %>% gather(key=ProsCons, value=percentages, 2:17)
+data2<-data2 
+data2$ProsCons <- factor(data2$ProsCons, levels=c( "Workspace.design", "Cons_Workspace.design",  "Growth...career.development"  ,"Cons_Growth...career.development",   "Management.support",  "Cons_Management.support" , "Job.design" ,"Cons_Job.design","Tech...resources" ,"Cons_Tech...resources","Compensation...rewards"  ,"Cons_Compensation...rewards" , "Work.environment"  , "Cons_Work.environment" , "Firm.reputation"  ,"Cons_Organizational.structure...policies"))
+#data2$ProsCons
+ggplot(data2, aes(ProsCons, percentages, fill=Rating..Overall.)) + geom_bar(stat="Identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("TFLE:Rating with pros and cons")
+
+```
+
+#Type of jobs -BackOffice
+```{r}
+library(dplyr)
+library(ggplot2)
+data = read.csv("/Users/clarawang/Dropbox/consulting/EmployeeSatisfactionData.csv")
+data.BackOffice = data %>% filter(Type.of.Job == "BackOffice")
+data.BackOffice <- na.omit(data.BackOffice)
+data.BackOffice$Rating..Overall. <- as.factor(data.BackOffice$Rating..Overall.)
+#mean(data[,26],na.rm=T)
+data1 <- data.BackOffice%>%group_by(Rating..Overall.) %>% summarise_at(vars(Workspace.design:Cons_Tech...resources), mean, na.rm=TRUE)
+data2 <- data1 %>% gather(key=ProsCons, value=percentages, 2:17)
+data2<-data2 
+data2$ProsCons <- factor(data2$ProsCons, levels=c( "Workspace.design", "Cons_Workspace.design",  "Growth...career.development"  ,"Cons_Growth...career.development",   "Management.support",  "Cons_Management.support" , "Job.design" ,"Cons_Job.design","Tech...resources" ,"Cons_Tech...resources","Compensation...rewards"  ,"Cons_Compensation...rewards" , "Work.environment"  , "Cons_Work.environment" , "Firm.reputation"  ,"Cons_Organizational.structure...policies"))
+#data2$ProsCons
+ggplot(data2, aes(ProsCons, percentages, fill=Rating..Overall.)) + geom_bar(stat="Identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("BackOffice:Rating with pros and cons")
+```
+#Industry -Information Technology
+```{r}
+library(dplyr)
+library(ggplot2)
+data = read.csv("/Users/clarawang/Dropbox/consulting/EmployeeSatisfactionData.csv")
+data.IT = data %>% filter(Industry == "Information Technology")
+data.IT <- na.omit(data.IT)
+data.IT$Rating..Overall. <- as.factor(data.IT$Rating..Overall.)
+#mean(data[,26],na.rm=T)
+data1 <- data.IT%>%group_by(Rating..Overall.) %>% summarise_at(vars(Workspace.design:Cons_Tech...resources), mean, na.rm=TRUE)
+data2 <- data1 %>% gather(key=ProsCons, value=percentages, 2:17)
+data2<-data2 
+data2$ProsCons <- factor(data2$ProsCons, levels=c( "Workspace.design", "Cons_Workspace.design",  "Growth...career.development"  ,"Cons_Growth...career.development",   "Management.support",  "Cons_Management.support" , "Job.design" ,"Cons_Job.design","Tech...resources" ,"Cons_Tech...resources","Compensation...rewards"  ,"Cons_Compensation...rewards" , "Work.environment"  , "Cons_Work.environment" , "Firm.reputation"  ,"Cons_Organizational.structure...policies"))
+#data2$ProsCons
+ggplot(data2, aes(ProsCons, percentages, fill=Rating..Overall.)) + geom_bar(stat="Identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("Information Technology:Rating with pros and cons")
+```
+#Industry -Business Service
+```{r}
+library(dplyr)
+library(ggplot2)
+data = read.csv("/Users/clarawang/Dropbox/consulting/EmployeeSatisfactionData.csv")
+data.BS = data %>% filter(Industry == "Business Service")
+data.BS <- na.omit(data.BS)
+data.BS$Rating..Overall. <- as.factor(data.BS$Rating..Overall.)
+#mean(data[,26],na.rm=T)
+data1 <- data.BS%>%group_by(Rating..Overall.) %>% summarise_at(vars(Workspace.design:Cons_Tech...resources), mean, na.rm=TRUE)
+data2 <- data1 %>% gather(key=ProsCons, value=percentages, 2:17)
+data2<-data2 
+data2$ProsCons <- factor(data2$ProsCons, levels=c( "Workspace.design", "Cons_Workspace.design",  "Growth...career.development"  ,"Cons_Growth...career.development",   "Management.support",  "Cons_Management.support" , "Job.design" ,"Cons_Job.design","Tech...resources" ,"Cons_Tech...resources","Compensation...rewards"  ,"Cons_Compensation...rewards" , "Work.environment"  , "Cons_Work.environment" , "Firm.reputation"  ,"Cons_Organizational.structure...policies"))
+#data2$ProsCons
+ggplot(data2, aes(ProsCons, percentages, fill=Rating..Overall.)) + geom_bar(stat="Identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("Business Service:Rating with pros and cons")
+```
+#Industry -Finance
+```{r}
+library(dplyr)
+library(ggplot2)
+data = read.csv("/Users/clarawang/Dropbox/consulting/EmployeeSatisfactionData.csv")
+data.F = data %>% filter(Industry == "Finance")
+data.F <- na.omit(data.F)
+data.F$Rating..Overall. <- as.factor(data.F$Rating..Overall.)
+#mean(data[,26],na.rm=T)
+data1 <- data.F %>%group_by(Rating..Overall.) %>% summarise_at(vars(Workspace.design:Cons_Tech...resources), mean, na.rm=TRUE)
+data2 <- data1 %>% gather(key=ProsCons, value=percentages, 2:17)
+data2<-data2 
+data2$ProsCons <- factor(data2$ProsCons, levels=c( "Workspace.design", "Cons_Workspace.design",  "Growth...career.development"  ,"Cons_Growth...career.development",   "Management.support",  "Cons_Management.support" , "Job.design" ,"Cons_Job.design","Tech...resources" ,"Cons_Tech...resources","Compensation...rewards"  ,"Cons_Compensation...rewards" , "Work.environment"  , "Cons_Work.environment" , "Firm.reputation"  ,"Cons_Organizational.structure...policies"))
+#data2$ProsCons
+ggplot(data2, aes(ProsCons, percentages, fill=Rating..Overall.)) + geom_bar(stat="Identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("Finance:Rating with pros and cons")
+```
+#Industry -Retail
+```{r}
+library(dplyr)
+library(ggplot2)
+data = read.csv("/Users/clarawang/Dropbox/consulting/EmployeeSatisfactionData.csv")
+data.R = data %>% filter(Industry == "Retail")
+data.R <- na.omit(data.R)
+data.R$Rating..Overall. <- as.factor(data.R$Rating..Overall.)
+#mean(data[,26],na.rm=T)
+data1 <- data.R %>%group_by(Rating..Overall.) %>% summarise_at(vars(Workspace.design:Cons_Tech...resources), mean, na.rm=TRUE)
+data2 <- data1 %>% gather(key=ProsCons, value=percentages, 2:17)
+data2<-data2 
+data2$ProsCons <- factor(data2$ProsCons, levels=c( "Workspace.design", "Cons_Workspace.design",  "Growth...career.development"  ,"Cons_Growth...career.development",   "Management.support",  "Cons_Management.support" , "Job.design" ,"Cons_Job.design","Tech...resources" ,"Cons_Tech...resources","Compensation...rewards"  ,"Cons_Compensation...rewards" , "Work.environment"  , "Cons_Work.environment" , "Firm.reputation"  ,"Cons_Organizational.structure...policies"))
+#data2$ProsCons
+ggplot(data2, aes(ProsCons, percentages, fill=Rating..Overall.)) + geom_bar(stat="Identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("Retail:Rating with pros and cons")
+```
+#Industry -Property
+```{r}
+library(dplyr)
+library(ggplot2)
+data = read.csv("/Users/clarawang/Dropbox/consulting/EmployeeSatisfactionData.csv")
+data.Property = data %>% filter(Industry == "Property")
+data.Property <- na.omit(data.Property)
+data.Property$Rating..Overall. <- as.factor(data.Property$Rating..Overall.)
+#mean(data[,26],na.rm=T)
+data1 <- data.Property %>%group_by(Rating..Overall.) %>% summarise_at(vars(Workspace.design:Cons_Tech...resources), mean, na.rm=TRUE)
+data2 <- data1 %>% gather(key=ProsCons, value=percentages, 2:17)
+data2<-data2 
+data2$ProsCons <- factor(data2$ProsCons, levels=c( "Workspace.design", "Cons_Workspace.design",  "Growth...career.development"  ,"Cons_Growth...career.development",   "Management.support",  "Cons_Management.support" , "Job.design" ,"Cons_Job.design","Tech...resources" ,"Cons_Tech...resources","Compensation...rewards"  ,"Cons_Compensation...rewards" , "Work.environment"  , "Cons_Work.environment" , "Firm.reputation"  ,"Cons_Organizational.structure...policies"))
+#data2$ProsCons
+ggplot(data2, aes(ProsCons, percentages, fill=Rating..Overall.)) + geom_bar(stat="Identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("Property:Rating with pros and cons")
+```
+
+#Industry -Healthcare
+```{r}
+library(dplyr)
+library(ggplot2)
+data = read.csv("/Users/clarawang/Dropbox/consulting/EmployeeSatisfactionData.csv")
+data.Healthcare = data %>% filter(Industry == "Healthcare")
+data.Healthcare <- na.omit(data.Healthcare)
+data.Healthcare$Rating..Overall. <- as.factor(data.Healthcare$Rating..Overall.)
+#mean(data[,26],na.rm=T)
+data1 <- data.Property %>%group_by(Rating..Overall.) %>% summarise_at(vars(Workspace.design:Cons_Tech...resources), mean, na.rm=TRUE)
+data2 <- data1 %>% gather(key=ProsCons, value=percentages, 2:17)
+data2<-data2 
+data2$ProsCons <- factor(data2$ProsCons, levels=c( "Workspace.design", "Cons_Workspace.design",  "Growth...career.development"  ,"Cons_Growth...career.development",   "Management.support",  "Cons_Management.support" , "Job.design" ,"Cons_Job.design","Tech...resources" ,"Cons_Tech...resources","Compensation...rewards"  ,"Cons_Compensation...rewards" , "Work.environment"  , "Cons_Work.environment" , "Firm.reputation"  ,"Cons_Organizational.structure...policies"))
+#data2$ProsCons
+ggplot(data2, aes(ProsCons, percentages, fill=Rating..Overall.)) + geom_bar(stat="Identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("Healthcare:Rating with pros and cons")
+```
+
+
